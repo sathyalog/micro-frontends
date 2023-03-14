@@ -1,4 +1,7 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin"); /* this plugin is useful to amend all javascript files in public/index.html file */
+/* this plugin is useful to amend all javascript files in public/index.html file */
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+/* module federation plugin to expose/fetch any files we wanted to send from remote */
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 module.exports = {
   mode: "development",
@@ -7,6 +10,14 @@ module.exports = {
     port: 8081,
   },
   plugins: [
+    /* Module Federation Plugin exposing index.js from products(Remote) to container app(Host) */
+    new ModuleFederationPlugin({
+      name: "products",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./ProductsIndex": "./src/index",
+      },
+    }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
