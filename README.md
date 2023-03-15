@@ -58,3 +58,5 @@ click the following collapsed section(Host Module Federation Code) to view the c
     ![Micro Frontends|Step by Step](/images/micro-frontends-3.png)
 12. Quick glance to understand the flow of steps..
     ![Micro Frontends|Step by Step](/images/micro-frontends-6.png)
+13. Now, we have added cart application as remote and fetch the cart feature of showing cart items in our host(container app). Like shown below..
+    ![Micro Frontends|Step by Step](/images/micro-frontends-10.png)
