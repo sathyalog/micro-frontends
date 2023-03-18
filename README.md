@@ -62,8 +62,18 @@ click the following collapsed section(Host Module Federation Code) to view the c
     ![Micro Frontends|Step by Step](/images/micro-frontends-10.png)
 14. With this, different teams can work independently on different apps like shown below..
     ![Micro Frontends|Step by Step](/images/micro-frontends-12.png)
-15. If you notice keenly, both products, cart shares faker module like shown below. Hence we need to find a way to use Shared Modules. You can notice the same in network tab where vendor_node_modules_faker loads twice.
+15. If you notice keenly, both products, cart shares faker module like shown below. Hence we need to find a way to use Shared Modules. You can notice the same in network tab where vendor_node_modules_faker loads twice in container app.
     ![Micro Frontends|Step by Step](/images/micro-frontends-13.png)
 16. To avoid duplicate loading and execution time, we can use module federation configuration to share between 2 apps. Simple snippet in both cart & products helps in our case. `shared: ["faker"]`. But we will encounter an error in our cart or product app as it has standalone import of faker module. Hence we need to import faker module asynchronously. So, we will move index.js file into bootstrap and import bootstrap async fashion in index.js. For more details follow the commit "shared module"
     **standalone import:** `import "./bootstrap";`
     **functional import(also async import) :** `import("./bootstrap");`
+
+17. Here comes the challenge, what if we need different library versions need to be used in our remote apps(cart or products). Example: cart app need a different react version(here faker for now) due to some requirements and products app need a different react version. Then shared module configuration which we did in above step, will not work and it will loaded twice again.
+    We can use singleton to force host app to use only one version to download and execute. But it might show a warning in console as incompatible version
+
+    ````shared: {
+        faker: {
+          singleton: true,
+        },
+      },```
+    ````
